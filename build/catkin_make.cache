@@ -1,0 +1,2 @@
+inputs
+-DCATKIN_DEVEL_PREFIX=/home/ssac23/ros_input/devel -DCMAKE_INSTALL_PREFIX=/home/ssac23/ros_input/install -G Unix Makefiles
