@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/include/scout_sdk/scout_protocol/scout_can_parser.h
+stdint.h
+-
+stdbool.h
+-
+scout_sdk/scout_protocol/scout_protocol.h
+/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/include/scout_sdk/scout_protocol/scout_sdk/scout_protocol/scout_protocol.h
+linux/can.h
+-
+
+/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/include/scout_sdk/scout_protocol/scout_protocol.h
+stdint.h
+-
+
+/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/include/scout_sdk/scout_protocol/scout_uart_parser.h
+stdint.h
+-
+string.h
+-
+stdbool.h
+-
+scout_sdk/scout_protocol/scout_protocol.h
+/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/include/scout_sdk/scout_protocol/scout_sdk/scout_protocol/scout_protocol.h
+
+/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/src/scout_protocol/scout_can_parser.c
+scout_sdk/scout_protocol/scout_can_parser.h
+/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/src/scout_protocol/scout_sdk/scout_protocol/scout_can_parser.h
+string.h
+/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/src/scout_protocol/string.h
+
+/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/src/scout_protocol/scout_uart_parser.c
+scout_sdk/scout_protocol/scout_uart_parser.h
+/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/src/scout_protocol/scout_sdk/scout_protocol/scout_uart_parser.h
+segger/jlink_rtt.h
+/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/src/scout_protocol/segger/jlink_rtt.h
+

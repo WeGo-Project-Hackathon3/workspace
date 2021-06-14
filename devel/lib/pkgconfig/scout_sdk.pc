@@ -1,0 +1,8 @@
+prefix=/home/ssac23/ros_input/devel
+
+Name: scout_sdk
+Description: Description of scout_sdk
+Version: 0.0.0
+Cflags: -I/home/ssac23/ros_input/src/scout_mini_ros/scout_sdk/include
+Libs: -L${prefix}/lib -lscout_sdk
+Requires: roscpp std_msgs

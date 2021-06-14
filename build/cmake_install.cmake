@@ -37,11 +37,6 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
-# Set default install directory permissions.
-if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "/usr/bin/objdump")
-endif()
-
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   
       if (NOT EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}")
@@ -136,7 +131,14 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/home/ssac23/ros_input/build/gtest/cmake_install.cmake")
+  include("/home/ssac23/ros_input/build/scout_mini_ros/scout_ros/cmake_install.cmake")
+  include("/home/ssac23/ros_input/build/scout_mini_ros/scout_msgs/cmake_install.cmake")
+  include("/home/ssac23/ros_input/build/scout_mini_ros/scout_bringup/cmake_install.cmake")
+  include("/home/ssac23/ros_input/build/scout_mini_ros/scout_description/cmake_install.cmake")
+  include("/home/ssac23/ros_input/build/scout_mini_ros/scout_sdk/cmake_install.cmake")
   include("/home/ssac23/ros_input/build/inputs/cmake_install.cmake")
+  include("/home/ssac23/ros_input/build/scout_mini_ros/scout_base/cmake_install.cmake")
+  include("/home/ssac23/ros_input/build/scout_mini_ros/scout_gazebo_sim/cmake_install.cmake")
 
 endif()
 

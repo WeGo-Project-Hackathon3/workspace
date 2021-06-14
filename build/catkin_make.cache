@@ -1,2 +1,2 @@
-inputs
+inputs:scout_mini_ros/scout_base:scout_mini_ros/scout_bringup:scout_mini_ros/scout_description:scout_mini_ros/scout_gazebo_sim:scout_mini_ros/scout_msgs:scout_mini_ros/scout_ros:scout_mini_ros/scout_sdk
 -DCATKIN_DEVEL_PREFIX=/home/ssac23/ros_input/devel -DCMAKE_INSTALL_PREFIX=/home/ssac23/ros_input/install -G Unix Makefiles

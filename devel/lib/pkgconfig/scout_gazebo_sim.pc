@@ -1,0 +1,8 @@
+prefix=/home/ssac23/ros_input/devel
+
+Name: scout_gazebo_sim
+Description: Description of scout_gazebo_sim
+Version: 0.0.1
+Cflags: -I/home/ssac23/ros_input/src/scout_mini_ros/scout_gazebo_sim/include
+Libs: -L${prefix}/lib 
+Requires: roscpp sensor_msgs

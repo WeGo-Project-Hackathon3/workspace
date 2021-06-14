@@ -1,0 +1,8 @@
+prefix=/home/ssac23/ros_input/devel
+
+Name: scout_msgs
+Description: Description of scout_msgs
+Version: 0.3.3
+Cflags: -I/home/ssac23/ros_input/devel/include
+Libs: -L${prefix}/lib 
+Requires: 

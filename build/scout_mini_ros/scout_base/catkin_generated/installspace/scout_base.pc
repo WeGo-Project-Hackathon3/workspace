@@ -1,0 +1,8 @@
+prefix=/home/ssac23/ros_input/install
+
+Name: scout_base
+Description: Description of scout_base
+Version: 0.3.3
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lscout_messenger
+Requires: scout_msgs roscpp sensor_msgs scout_sdk
