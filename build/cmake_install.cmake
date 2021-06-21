@@ -136,7 +136,6 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/ssac23/ros_input/build/scout_mini_ros/scout_bringup/cmake_install.cmake")
   include("/home/ssac23/ros_input/build/scout_mini_ros/scout_description/cmake_install.cmake")
   include("/home/ssac23/ros_input/build/scout_mini_ros/scout_sdk/cmake_install.cmake")
-  include("/home/ssac23/ros_input/build/inputs/cmake_install.cmake")
   include("/home/ssac23/ros_input/build/scout_mini_ros/scout_base/cmake_install.cmake")
   include("/home/ssac23/ros_input/build/scout_mini_ros/scout_gazebo_sim/cmake_install.cmake")
 
