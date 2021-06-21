@@ -31,13 +31,13 @@
 
 ## 3. 프로젝트 프로세스
 
-<img src="./images/image_01.png" alt="스크린샷, 2021-06-21 16-26-07" style="zoom:80%;" />
+<img src="./images/image_02.png" alt="스크린샷, 2021-06-21 16-26-07" style="zoom:80%;" />
 
 
 
 ## 4. 알고리즘 개요
 
-<img src="./images/image_02.png" alt="스크린샷, 2021-06-21 16-30-31" style="zoom:80%;" />
+<img src="./images/image_01.png" alt="스크린샷, 2021-06-21 16-30-31" style="zoom:80%;" />
 
 
 
