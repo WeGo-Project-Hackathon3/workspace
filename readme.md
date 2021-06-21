@@ -25,7 +25,7 @@
 
 1. 비전 처리를 통해 사람의 모습, 형태를 학습하여 구분 및 인지
 2. Depth 카메라 or LiDar 센서를 사용하여 일정 거리를 유지할 수 있도록 측정
-3. 추적 중간에 방해(대상의 이탈, 새로운 대상의 유입)가 발생하더라도 지정된 대상만 Follow
+3. 추적 중간에 방해(대상의 이탈, 새로운 대상의 유입)가 발생하더라도 지정된 대상만 Follow  
 
 
 
@@ -45,25 +45,15 @@
 
 - 주요 환경 구성은 아래와 같다. 
 
-  Ubuntu 18.4
-
-  anaconda 
-
-  pyrealsense2
-
-  opencv-contrib-python
-
-  opencv-python
-
-  ros
+  Ubuntu 18.4, anaconda, pyrealsense2, opencv-contrib-python, opencv-python, ros 등
 
 - pip install 로 환경 구성 
 
 ```
-$ pip install -r requirements.txt
+$ pip install -r requirements.txt  
 ```
 
-
+  
 
 ## 6. 프로젝트 실행 방법
 
@@ -73,7 +63,7 @@ $ pip install -r requirements.txt
 $ python3  cv_tracking_hand_depth_cam.py
 ```
 
-수정 중 ...
+수정 중 ...    
 
 
 
@@ -87,5 +77,7 @@ https://github.com/theAIGuysCode/yolov4-deepsort
 
 https://github.com/theAIGuysCode/tensorflow-yolov4-tflite
 
-추가 중 ...
+추가 중 ...     
+
+
 
