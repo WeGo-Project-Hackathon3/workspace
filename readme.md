@@ -99,11 +99,13 @@ $ roslaunch scout_bringup scout_mini_base_gazebo_sim.launch
 
 
 2-1. .../scout_bringup/scripts/ 내부 py 파일 실행 
+
 ```
 $ rosrun scout_bringup cv_tracking_hand_depth_cam.py
 ```
 
 2-2. 키보드로 조정하고 싶은 경우 
+
 ```
 roslaunch scout_bringup scout_teleop_keyboard.launch
 ```
