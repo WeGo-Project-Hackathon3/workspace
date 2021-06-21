@@ -1,6 +1,10 @@
 # [ 자율주행 Follow Me 로봇 ]
 
-
+## 0. 메인 파일 설명
+<b>cv_tracking_hand_depth_cam_final.py</b> : tracking 및 detect가 동작하고 ST-mini에 publish되는 main file </br>
+<b>ros_pub.py </b>: ros에 publish를 하는 함수들을 담은 모듈  </br>
+<b>depth_cam_distance.py</b> : depth cam으로 거리와 관련된 함수가 있는 모듈 </br>
+<b>bboxes_utils.py </b> :  bounding box들 간의 조정(iou, distance)을 하는 함수가 있는 모듈 </br>
 
 ## 1. 프로젝트 개요
 
