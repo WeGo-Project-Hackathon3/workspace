@@ -41,8 +41,18 @@
 ## 5. 프로젝트 환경구성
 
 - 주요 환경 구성
+  - local 환경 <br>
+    Ubuntu 18.4, anaconda
+    
+  - OpenCV <br>
+    opencv-contrib-python, opencv-python
+  
+  - ROS     <br>
+    ros melodic
 
-  Ubuntu 18.4, anaconda, pyrealsense2, opencv-contrib-python, opencv-python, ros melodic 등
+  - Depth Camera <br>
+    pyrealsense2  
+  
 
 - pip install 로 환경 구성 
 
@@ -56,9 +66,53 @@ $ pip install -r requirements.txt
 
 스크립트 경로 : 워크스페이스의 /src/scout_mini_ros/scout_bringup 폴더 내에 존재 
 
+
 ```
+# local에서 실행하는 경우
+$ cd [워크스페이스]/src/scout_mini_ros/scout_bringup/scripts
 $ python3  cv_tracking_hand_depth_cam.py
 ```
+
+#### ros 위에서 실행
+- ros를 사용할 터미널은 <b>`$ source devel/setup.bash`</b>를 반드시 해주어야 한다.
+
+1-1. ROS-STmini 연결 
+```
+$ cd [워크스페이스]
+$ source devel/setup.bash
+$ rosrun scout_bringup bringup_can2usb.bash
+```
+
+환경 setup 후 ST-mini와 can 통신 연결
+
+```
+$ roslaunch scout_bringup scout_minimal.launch 
+```
+
+
+1-2. ROS Gazebo 연결
+```
+$ cd [워크스페이스]
+$ source devel/setup.bash
+$ roslaunch scout_bringup scout_mini_base_gazebo_sim.launch
+```
+
+
+2-1. .../scout_bringup/scripts/ 내부 py 파일 실행 
+
+```
+$ rosrun scout_bringup cv_tracking_hand_depth_cam.py
+```
+
+2-2. 키보드로 조정하고 싶은 경우 
+
+```
+roslaunch scout_bringup scout_teleop_keyboard.launch
+```
+
+ROS 실행부분은 모두 workspace로 이동한 후 명령어를 사용해야 한다.
+
+<br><br>
 
 수정 중 ...    
 
@@ -73,6 +127,10 @@ https://github.com/AlexeyAB/darknet
 https://github.com/theAIGuysCode/yolov4-deepsort
 
 https://github.com/theAIGuysCode/tensorflow-yolov4-tflite
+
+https://github.com/IvLabs/person_following_bot
+
+https://github.com/kairess/Rock-Paper-Scissors-Machine.git
 
 추가 중 ...     
 
