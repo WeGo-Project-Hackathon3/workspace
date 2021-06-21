@@ -87,7 +87,7 @@ $ rosrun scout_bringup bringup_can2usb.bash
 
 ```
 $ roslaunch scout_bringup scout_minimal.launch 
-``
+```
 
 
 1-2. ROS Gazebo 연결
@@ -112,6 +112,7 @@ roslaunch scout_bringup scout_teleop_keyboard.launch
 
 ROS 실행부분은 모두 workspace로 이동한 후 명령어를 사용해야 한다.
 
+<br><br>
 
 수정 중 ...    
 
