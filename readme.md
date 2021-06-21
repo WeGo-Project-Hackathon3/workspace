@@ -43,9 +43,9 @@
 
 ## 5. 프로젝트 환경구성
 
-- 주요 환경 구성은 아래와 같다. 
+- 주요 환경 구성
 
-  Ubuntu 18.4, anaconda, pyrealsense2, opencv-contrib-python, opencv-python, ros 등
+  Ubuntu 18.4, anaconda, pyrealsense2, opencv-contrib-python, opencv-python, ros melodic 등
 
 - pip install 로 환경 구성 
 
