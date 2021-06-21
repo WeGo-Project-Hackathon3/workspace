@@ -2,16 +2,19 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import time
-import os 
+import os
+
 
 # hand initialize 설정
 def hand_init() :
     max_num_hands = 2
+    '''
+    # 사전에 학습되어서 사용 가능한 손 gesture
     gesture = {
         0:'fist', 1:'one', 2:'two', 3:'three', 4:'four', 5:'five',
         6:'six', 7:'rock', 8:'spiderman', 9:'yeah', 10:'ok',
     }
-    #rps_gesture = {0:'rock', 5:'paper', 9:'scissors'}
+    '''
     hand_gesture = {0:'stop', 5:'move'}
 
     # MediaPipe hands model
@@ -23,9 +26,13 @@ def hand_init() :
         min_tracking_confidence=0.5)
 
     # Gesture recognition model
+    # ros를 사용할땐 아래와 같은 절대 주소가 필요하다. 
     absolute_path = os.path.dirname(os.path.abspath(__file__))
-    file = os.path.join(absolute_path,'data/gesture_train.csv')
-    file = np.genfromtxt(file, delimiter=',')
+    gesture_path = os.path.join(absolute_path , 'data/gesture_train.csv')
+    # ros를 사용하지 않고 상대주소로 하는 경우
+    #gesture_path =  'data/gesture_train.csv'
+    
+    file = np.genfromtxt(gesture_path, delimiter=',')
     angle = file[:,:-1].astype(np.float32)
     label = file[:, -1].astype(np.float32)
     knn = cv2.ml.KNearest_create()   # OpenCV KNN model로 학습
@@ -35,17 +42,19 @@ def hand_init() :
 
 
 # hand detection start
-#def hand_detection(cap, x_min, y_min) : # joo.jg 주석
-def hand_detection(dc, x_min, y_min) : 
+#def hand_detection(cap, x_min, y_min) : # joo.jg 주석   webcam 사용시
+def hand_detection(dc, x_min= 260, y_min = 120) :  # 640, 480 기준
+#def hand_detection(dc) : 
     time_chk=0
     cur_time = 0.0
     hand_status = False
     
     action = ''
     hand_gesture = {0:'stop', 5:'move', 10:'ok'}
+    
+    #  ============= webcam 사용시 아래 주석 풀고 dc 부분 주석 처리 ===================
     #cap = cv2.VideoCapture(-1)
     #_, frame = cap.read() #joo.jg 주석처리 
-    #H,W = frame.shape[:2]
     hand_x, hand_y, hand_w, hand_h =0,0,0,0
 
     knn, angle, mp_hands, mp_drawing, hands = hand_init()
@@ -59,9 +68,9 @@ def hand_detection(dc, x_min, y_min) :
 
         frame = cv2.flip(frame, 1)
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) 
-
+        
+        # hands solution start 
         result = hands.process(frame)
-
         frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR) 
 
         if result.multi_hand_landmarks is not None:
@@ -118,74 +127,55 @@ def hand_detection(dc, x_min, y_min) :
                     print(f"cur_time : ", cur_time)
                     print(f"cur_time 진행중  ")
                     if action_result[0]['action'] == 'stop' : 
-                        # cv2.putText  적용위치  [ text 시작점  ]
-                        #init_ =0
+
+
                         if action_result[1]['action'] =='stop' :
                             action = 'stop'
-                            #init_ =1
+
                         elif action_result[1]['action'] !='stop' :
                             # move와 stop을 주는 gesture를 동시에하는 경우
                             # 한쪽손은 보자기, 다른 손은 주먹을 쥐는 경우 올바르지 않은 action으로 인식
                             action =''
-                            #cur_time =0  # 시간 다시 초기화
+                            
                             time_chk = time.time()
-                            cur_time = round(time.time() - time_chk,2)
+                            cur_time = round(time.time() - time_chk,2) # 시간 초기화
                         # another action 
                         #
-                        #
                     elif action_result[0]['action'] == 'move' :
-                        # cv2.putText  적용위치  [ text 시작점  ]
-                        #init_ = 0
+
                         if action_result[1]['action'] == 'move' :
                             action ='move'
-                            #init_ = 1
+
                         elif action_result[1]['action'] !='move' :
                             # move와 stop을 주는 gesture를 동시에하는 경우
                             # 한쪽손은 보자기, 다른 손은 주먹을 쥐는 경우 올바르지 않은 action으로 인식
                             action =''
-                            #cur_time =0  # 시간 다시 초기화
                             time_chk = time.time()
-                            cur_time = round(time.time() - time_chk,2)
+                            cur_time = round(time.time() - time_chk,2) # 시간 초기화
                             
                         # another action
                         #
-                        #
                 
                     if action != '' and len(action_result) >0 :
-                        print(f"action test {action}, {action_result[init_]['org']}")
-                        #pass
                         # org[0] : 손바닥 가장 아래부분 x   , org[1] : 손바닥 가장 아래 부분 y
                         #  org[2] : 중지의 가장 윗부분 x , org[2] : 중지의 가장 윗부분 y
                         text_x,text_y = (action_result[init_]['org'][2] , action_result[init_]['org'][3] )
                         if  not  text_y - 50  < 0  : 
-                            text_y -= 50
-                        #cv2.putText(frame, text=f"action : {action}" ,org=( action_result[init_]['org'][0] ,  action_result[init_]['org'][1]  ) , fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 255, 0), thickness=3) 
-                        cv2.putText(frame, text=f"action : {action}" ,org=( text_x, text_y ) , fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 255, 0), thickness=3) 
+                            text_y -= 50                        
+                        cv2.putText(frame, text=f"action : {action}" ,org=( text_x, text_y ) , fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 255, 0), thickness=2) 
                         hand_x = min(action_result[0]['org'][0], action_result[1]['org'][0])
                         hand_y = min(action_result[0]['org'][1], action_result[1]['org'][1])
                         hand_w = max(action_result[0]['org'][0], action_result[1]['org'][0]) - hand_x
                         hand_h = max(action_result[0]['org'][1], action_result[1]['org'][1]) - hand_y
-                        #print( f"  (hand_x, hand_y, hand_w, hand_h)  : ", (hand_x, hand_y, hand_w, hand_h) )
-                        print( f"  action_result  : ", action_result )
-                # 2개의 손이 아닌 값이 보엿을때
-                # 모든 값 초기화
-                #elif len(action_result) != 2:
 
-                # else :
-                #     print("두 손이 아님")
-                #     #print(f"len(action_result) : {len(action_result)} ")
-                #     print(f"action_result : {action_result} ")
-                #     action =''
-                #     cur_time =0  # 시간 다시 초기화
-                #     time_chk = time.time()
+                        #print( f"  action_result  : ", action_result )
 
 
         print(f"curtime : {cur_time}  , time_chk : {time_chk}")
+        # tracker의 init bounding box를 그려준다.
         cv2.rectangle(frame, (x_min, y_min), (hand_x + hand_w, hand_y + hand_h),(255, 0, 120), 2)
-	#cv2.rectangle(frame, (hand_x, hand_y), (hand_x + hand_w, hand_y + hand_h),(255, 0, 120), 2)
         cv2.imshow('hand_gesture', frame)
-        #if action == '' : 
-        #    continue
+
         key = cv2.waitKey(1)
         if key == ord('q') or key == 27  or cur_time > 2.0:
             #cv2.destroyAllWindows()
