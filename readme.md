@@ -76,6 +76,11 @@ $ python3  cv_tracking_hand_depth_cam.py
 
 #### ros 위에서 실행
 - ros를 사용할 터미널은 <b>`$ source devel/setup.bash`</b>를 반드시 해주어야 한다.
+- main으로 사용할 python file 가장 위에 local의 python 환경 위치를 주석으로 적어주어야 한다. </br>
+  ex) #! /usr/bin/python 
+  - 자신의 python 환경 위치는 터미널에 `$ which python`으로 확인이 가능하다.
+
+</br>
 
 1-1. ROS-STmini 연결 
 ```
