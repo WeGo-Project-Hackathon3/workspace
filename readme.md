@@ -122,6 +122,8 @@ ROS 실행부분은 모두 workspace로 이동한 후 명령어를 사용해야 
 - <b>ros_pub.py </b>: ros에 publish를 하는 함수들을 담은 모듈  </br>
 - <b>depth_cam_distance.py</b> : depth cam으로 거리와 관련된 함수가 있는 모듈 </br>
 - <b>bboxes_utils.py </b> :  bounding box들 간의 조정(iou, distance)을 하는 함수가 있는 모듈 </br>
+- <b>realsense_depth.py</b> : Depth Camera와 연결할 때 필요한 pipeline 설정이 있는 모듈 </br>
+- <b>hand_depth.py</b> : <b>mediapipe</b>의 솔류션 중에서 hand의 landmark를 그리는 솔루션을 사용, 해당 솔루션으로 손의 gesture 확인하는 모듈 </br>
 
 </br>
 
