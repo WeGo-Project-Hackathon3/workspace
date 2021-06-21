@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<launch>
- <include file="$(find usb_cam)/launch/usb_cam-test.launch"/>
- <include file="$(find tracer_bringup)/launch/tracer_robot_base.launch"/>
- <node name="recv_image" pkg="aruco" type="recv_image.py" output="screen"/>
- <node name="aruco_detector" pkg="aruco" type="aruco_detector.py" output="screen"/>
- <node name="aruco_judgement" pkg="aruco" type="judgement.py" output="screen"/>
- <node name="control" pkg="aruco" type="control.py" output="screen"/>
-</launch>

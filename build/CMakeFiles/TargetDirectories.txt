@@ -119,13 +119,6 @@
 /home/ssac23/ros_input/build/scout_mini_ros/scout_sdk/CMakeFiles/rebuild_cache.dir
 /home/ssac23/ros_input/build/scout_mini_ros/scout_sdk/CMakeFiles/scout_sdk.dir
 /home/ssac23/ros_input/build/scout_mini_ros/scout_sdk/CMakeFiles/install.dir
-/home/ssac23/ros_input/build/inputs/CMakeFiles/install/strip.dir
-/home/ssac23/ros_input/build/inputs/CMakeFiles/edit_cache.dir
-/home/ssac23/ros_input/build/inputs/CMakeFiles/list_install_components.dir
-/home/ssac23/ros_input/build/inputs/CMakeFiles/test.dir
-/home/ssac23/ros_input/build/inputs/CMakeFiles/install/local.dir
-/home/ssac23/ros_input/build/inputs/CMakeFiles/rebuild_cache.dir
-/home/ssac23/ros_input/build/inputs/CMakeFiles/install.dir
 /home/ssac23/ros_input/build/scout_mini_ros/scout_base/CMakeFiles/list_install_components.dir
 /home/ssac23/ros_input/build/scout_mini_ros/scout_base/CMakeFiles/rebuild_cache.dir
 /home/ssac23/ros_input/build/scout_mini_ros/scout_base/CMakeFiles/clean_test_results_scout_base.dir

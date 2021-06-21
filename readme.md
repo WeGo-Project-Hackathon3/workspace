@@ -1,6 +1,6 @@
 # [ 자율주행 Follow Me 로봇 ]
 
-
+</br></br>
 
 ## 1. 프로젝트 개요
 
@@ -11,7 +11,7 @@
 - 프로젝트 상세 : SSACxAIFFEL 인공지능 혁신학교 Hackathon3
 - 프로젝트 과정 : 노션 https://www.notion.so/modulabs/wego-d621c41a171f4f3b8e2e4682bc9bbbdc
 
-
+</br></br>
 
 ## 2. 프로젝트 목표 및 요건
 
@@ -25,18 +25,18 @@
 3. 추적 중간에 방해(대상의 이탈, 새로운 대상의 유입)가 발생하더라도 지정된 대상만 Follow    
 
 
-
+</br></br>
 ## 3. 프로젝트 프로세스
 
 <img src="./images/image_02.png" alt="스크린샷, 2021-06-21 16-26-07" style="zoom:80%;" />
 
-
+</br></br>
 
 ## 4. 알고리즘 개요
 
 <img src="./images/image_01.png" alt="스크린샷, 2021-06-21 16-30-31" style="zoom:80%;" />
 
-
+</br></br>
 
 ## 5. 프로젝트 환경구성
 
@@ -59,10 +59,10 @@
 ```
 $ pip install -r requirements.txt  
 ```
-
+</br>
   
 
-## 6. 프로젝트 실행 방법
+## 6-1. 프로젝트 실행 방법
 
 스크립트 경로 : 워크스페이스의 /src/scout_mini_ros/scout_bringup 폴더 내에 존재 
 
@@ -72,9 +72,15 @@ $ pip install -r requirements.txt
 $ cd [워크스페이스]/src/scout_mini_ros/scout_bringup/scripts
 $ python3  cv_tracking_hand_depth_cam.py
 ```
+</br>
 
 #### ros 위에서 실행
 - ros를 사용할 터미널은 <b>`$ source devel/setup.bash`</b>를 반드시 해주어야 한다.
+- main으로 사용할 python file 가장 위에 local의 python 환경 위치를 주석으로 적어주어야 한다. </br>
+  ex) #! /usr/bin/python 
+  - 자신의 python 환경 위치는 터미널에 `$ which python`으로 확인이 가능하다.
+
+</br>
 
 1-1. ROS-STmini 연결 
 ```
@@ -112,11 +118,19 @@ roslaunch scout_bringup scout_teleop_keyboard.launch
 
 ROS 실행부분은 모두 workspace로 이동한 후 명령어를 사용해야 한다.
 
-<br><br>
-
-수정 중 ...    
+</br></br>
 
 
+
+## 6-2. 프로젝트 주 동작 file 
+- <b>cv_tracking_hand_depth_cam_final.py</b> : tracking 및 detect가 동작하고 ST-mini에 publish되는 main file </br>
+- <b>ros_pub.py </b>: ros에 publish를 하는 함수들을 담은 모듈  </br>
+- <b>depth_cam_distance.py</b> : depth cam으로 거리와 관련된 함수가 있는 모듈 </br>
+- <b>bboxes_utils.py </b> :  bounding box들 간의 조정(iou, distance)을 하는 함수가 있는 모듈 </br>
+- <b>realsense_depth.py</b> : Depth Camera와 연결할 때 필요한 pipeline 설정이 있는 모듈 </br>
+- <b>hand_depth.py</b> : <b>mediapipe</b>의 솔루션 중에서 hand의 landmark를 그리는 솔루션을 사용, 해당 솔루션으로 손의 gesture 확인하는 모듈 </br>
+
+</br>
 
 ## 7. References 
 
@@ -132,7 +146,6 @@ https://github.com/IvLabs/person_following_bot
 
 https://github.com/kairess/Rock-Paper-Scissors-Machine.git
 
-추가 중 ...     
 
 
 
