@@ -42,8 +42,8 @@ def hand_init() :
 
 
 # hand detection start
-#def hand_detection(cap, x_min, y_min) : # joo.jg 주석   webcam 사용시
-def hand_detection(dc, x_min= 260, y_min = 120) :  # 640, 480 기준
+def hand_detection(cap, x_min= 260, y_min = 120) : # joo.jg 주석   webcam 사용시
+#def hand_detection(dc, x_min= 260, y_min = 120) :  # 640, 480 기준
     time_chk=0
     cur_time = 0.0
     hand_status = False
@@ -51,12 +51,14 @@ def hand_detection(dc, x_min= 260, y_min = 120) :  # 640, 480 기준
     action = ''
     hand_gesture = {0:'stop', 5:'move', 10:'ok'}
     
-    # ========== hand variable 초기화 ======================
+    cap = cv2.VideoCapture(-1)
+    _, frame = cap.read() #joo.jg 주석처리 
     hand_x, hand_y, hand_w, hand_h =0,0,0,0
+
     knn, angle, mp_hands, mp_drawing, hands = hand_init()
 
-    while True: 
-        ret, depth_frame, frame = dc.get_frame()
+    while cap.isOpened(): # joo.jg 주석  
+        ret, frame = cap.read() # joo.jg 주석 
         if not ret:
             continue
 
