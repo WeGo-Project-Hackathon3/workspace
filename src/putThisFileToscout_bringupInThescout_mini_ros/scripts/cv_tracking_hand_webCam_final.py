@@ -14,7 +14,7 @@ from bboxes_utils import *
 import core.utils as utils
 
 # hand
-from hand_depth import hand_detection
+from hand_webCam import hand_detection
 
 # ROS
 import rospy
@@ -37,7 +37,7 @@ absolute_path = os.path.dirname(os.path.abspath(__file__))
 
 MODEL_PATH = os.path.join(absolute_path, 'checkpoints/yolov4-tiny-416-small')
 IOU_THRESHOLD = 0.3
-SCORE_THRESHOLD = 0.4
+SCORE_THRESHOLD = 0.35
 INPUT_SIZE = 416
 
 
@@ -64,11 +64,11 @@ def main(video_path,pub):
     # Definition of the parameters
 
     iou_ =0.0
-    #algo = "kcf"  # 최소 8 ~ 21 
-    algo = "csrt" # kcf보다 느리지만 정확도 증가 
+    algo = "csrt"  # 최소 8 ~ 21 
+    #algo = "csrt" # kcf보다 느리지만 정확도 증가 
     success = False
     #DETECT_AFTER = 100 # 초기 frame 반복당 tracker initialize
-    DETECT_AFTER = 40
+    DETECT_AFTER = 35
     frame_number = -1
     pre_frame_chk = frame_number
 
@@ -78,9 +78,10 @@ def main(video_path,pub):
 
 
     # ============ cap read ============
-    
-    dc = DepthCamera() 
-    ret, _, frame = dc.get_frame()
+    cap = cv2.VideoCapture(video_path)
+    _, frame = cap.read()
+    #dc = DepthCamera() 
+    #ret, _, frame = dc.get_frame()
     
     (H, W) = frame.shape[:2]
 
@@ -106,16 +107,18 @@ def main(video_path,pub):
     linear_x = 0.0
      
     occlusion = False
+    DIST_AFTER = 2
 
     # PUB_AFTER 만큼 반복 후 발행
     PUB_AFTER = 1
     twist = Twist()
 
 
-    while ret:
-        frame_number+=1
-        ret, depth_frame, frame = dc.get_frame()
 
+    while cap.isOpened()  :
+        frame_number+=1
+        #ret, depth_frame, frame = dc.get_frame()
+        ret, frame = cap.read() # joo.jg 주석 
         if not ret:
             break
         
@@ -177,7 +180,7 @@ def main(video_path,pub):
             if action == '' :
                 x_min, y_min = bboxes[0][:2]
                 #y_min = int(max(y_min-20, 0)); x_min = int(max(x_min-10, 0))
-                action, (hand_x, hand_y, hand_w, hand_h) = hand_detection(dc, x_min, y_min)
+                action, (hand_x, hand_y, hand_w, hand_h) = hand_detection(cap, x_min, y_min)
 
             hand_center = (hand_x + hand_w//2)
 
@@ -223,17 +226,22 @@ def main(video_path,pub):
                 initBB = tuple(map( int, initBB) )
                 trueBB = tuple(map( int, trueBB) )
 
+
+                # ==== 06.22 ===========
+                # initBB  수정 전 rectangle
                 cv2.putText(img, f"iou_scores : {iou_} "  ,  (initBB[0] , initBB[1] )  , cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0, 255, 0), 2)
-                # initBB  수정 전 rectangle 확인 필요시 주석 해제
+                # 기존 tracker initBOX와 사람의 bbox를 기준으로 한 initBB 비교가 필요한 경우 아래 주석 해제  
                 #cv2.rectangle(img, (initBB[0], initBB[1]), (initBB[0] + initBB[2], initBB[1] + initBB[3]),(255, 255, 0), 2)
+                #cv2.putText(img, f"old initBB box : {initBB} ",  ( (initBB[0]  ) , ( initBB[1] -20 ) ), cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (102, 160, 145), 2)
                 cv2.rectangle(img, (trueBB[0], trueBB[1]), (trueBB[0] + trueBB[2], trueBB[1] + trueBB[3]),(255, 255, 0), 2)
+
 
                 init_hand_coorect = -1* ( W//2 - hand_center )//2
 
                 if init_chk:
                     initBB =  ( trueBB[0] + (trueBB[2]//2) - T_W//2  + init_hand_coorect ), ( trueBB[1] + (trueBB[3]//2) - T_H//2)  , T_W, T_H #, initBB[2], initBB[3]  
                 else : 
-                    initBB =  ( trueBB[0] + (trueBB[2]//2) - T_W//2  ), ( trueBB[1] + (trueBB[3]//2) - T_H//2)  , T_W, T_H# initBB[2], initBB[3]#, T_W, T_H   
+                    initBB =  ( trueBB[0] + (trueBB[2]//2) - T_W//2  ), ( trueBB[1] + (trueBB[3]//2) - T_H//2)  , initBB[2], initBB[3]#, T_W, T_H   
 
 
                 print(f"new initBB :", initBB)
@@ -251,21 +259,25 @@ def main(video_path,pub):
 
             
             depth_dist = 0
+            
             if  success  :
                 (x, y, w, h) = [int(v) for v in box]
-                x = min(W,x+10); y = max(0,y-10)
+                #x = min(W,x+10); y = max(0,y-10)
                 cv2.rectangle(frame, (x, y), (x + w, y + h),(255, 0, 120), 2)
+                
+                if len(box) <1 :
+                    print(" 사람이 없습니다. ")
                 
                 # update 하기 위한 initBB 
                 diff_dist =  round( np.linalg.norm( ((pre_initBB[0]) /W) - ((x+ w//2)/W) ),2)
-                if diff_dist > 0.23 :
+                if diff_dist > 0.23 :#and DIST_AFTER:
                     print("track bounding box 위치 문제 발생") 
                     x = pre_initBB[0]
                     y = pre_initBB[1] 
 
+
                 # depth로 범위 안에 포함되는지 와 거리 가져온다.
-                ok, depth_dist = depth_action( (x,y,w,h) , depth_frame) 
-                cv2.putText(frame, f"current : {ok} ", (x + w//2, y+h +10), cv2.FONT_HERSHEY_SIMPLEX,1,(255, 120, 120), 2)
+                cv2.putText(frame, f"current :  ", (x + w//2, y+h +10), cv2.FONT_HERSHEY_SIMPLEX,1,(255, 120, 120), 2)
 
                 pred_bbox = [bboxes, scores, classes, num_objects]
                 result = utils.draw_bbox(frame, pred_bbox)
@@ -279,55 +291,37 @@ def main(video_path,pub):
                 # ==========================   process pool _move (end)  =========================
                 init_chk= False
             
-            #ln_bboxes = len(bboxes) 
+            ln_bboxes = len(bboxes) 
             # depth cam으로 쟀을때 거리가 만족되는 경우 
-            if ok :
-                # =================== 21.06.19 수정 =============
-                if num_objects >=1 :
-                    pre_frame_chk = frame_number
-
-                    # ----- 2021 06 - 22 코드 수정 ----
-                    if abs(angular_z_pre) - abs(angular_z) > 0.3 :#
-                        print(f"occlusion 발생  :  {occlusion }")
-                        occlusion = not occlusion
-                        # ----- 2021 06 - 19 코드 수정 ----
-                        time_wait_pub(0.01, pub,linear= 0, angular=  angular_z_pre/2)
-                        occlusion = False
-                    elif not occlusion :#and ok:
-                        print(" not occlusion, 정상 publish")
-                        # 매 frame마다 발행이 아닌 일정 반복마다 발행
-                        if frame_number % PUB_AFTER == (PUB_AFTER-1) : 
-                            pub.publish(twist)
 
 
-                elif num_objects < 1 :
-                    twist.linear.x = linear_x_pre/2
-                    twist.angular.z = angular_z_pre/2
-                    pub.publish(twist)
+            # =================== 21.06.19 수정 =============
+            if ln_bboxes >=1 :
+                pre_frame_chk = frame_number
 
-            else : 
-            # 거리가 일정 범위를 넘어가거나 가까운 경우
-                if num_objects < 1:
-                    # cam에 사람이 없고 너무 가까운 경우 후진 후 이전 회전에 절반정도 진행
-                    if depth_dist < 1.45 :
-                        twist.linear.x =  -0.1 ; twist.angular.z = angular_z_pre/2 
-                    else :
-                        # 거리가 일정 범위 이상 떨어진 경우 앞으로 전진
-                        twist.linear.x =  0.3 ; twist.angular.z = angular_z_pre/2
-                else :
-                    # 1명 이상의 사람이 화면에 있는 경우
-                    # 가까운 경우 뒤로 조금 이동, 이전 angular의 절만만큼 이동 
-                    if depth_dist < 1.45 :
-                        twist.linear.x =  -0.1 ; twist.angular.z = angular_z_pre/2 
-                    else :
-                        # 거리가 일정 범위 이상 떨어진 경우 앞으로 전진
-                        twist.linear.x =  0.3 ; twist.angular.z = angular_z_pre*0.4
+                if abs(angular_z_pre) - abs(angular_z) > 0.3 :#
+                    print(f"occlusion 발생  :  {occlusion }")
+                    occlusion = not occlusion
+                    # ----- 2021 06 - 19 코드 수정 ----
+                    time_wait_pub(0.01, pub,linear= 0, angular=  angular_z_pre/2)
+                    occlusion = False
+                elif not occlusion :#and ok:
+                    print(" not occlusion, 정상 publish")
+                    # 매 frame마다 발행이 아닌 일정 반복마다 발행
+                    if frame_number % PUB_AFTER == (PUB_AFTER-1) : 
+                        pub.publish(twist)
+
+
+            elif ln_bboxes < 1 :
+                # 사람이 없는 경우 stop
+                twist.linear.x = 0.0
+                twist.angular.z = 0.0
                 pub.publish(twist)
 
             occlusion = False
 
             angular_z_pre = angular_z
-            linear_x_pre = linear_x
+            #linear_x_pre = linear_x
             pre_initBB = (initBB[0]+ initBB[2]//2 , initBB[1] + initBB[3]//2 ) # , initBB[2], initBB[3]) 
         # calculate frames per second of running detections
         fps = 1.0 / (time.time() - start_time)
@@ -340,7 +334,8 @@ def main(video_path,pub):
         cv2.imshow('result', result)
         key = cv2.waitKey(1)
         if key == ord('q') or key == 27:
-            dc.release()
+            #dc.release()
+            cap.release()
             pool.close()
             pool.join()
             break

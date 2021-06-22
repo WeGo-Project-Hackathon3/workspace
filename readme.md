@@ -169,7 +169,6 @@ https://github.com/IvLabs/person_following_bot
 
 https://github.com/kairess/Rock-Paper-Scissors-Machine.git
 
-추가 중 ...     
 
 
 
