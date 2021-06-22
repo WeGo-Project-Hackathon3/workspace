@@ -15,6 +15,13 @@ def depth_action(box, depth_frame ) :
             
             h_coverage.append(sum(w_coverage) > 0)                  
             w_coverage = [0]*box[2]
-        return sum(h_coverage) > 0, min(depth_dist) 
+        #return sum(h_coverage) > 0, min(depth_dist)
+	if sum(h_coverage) > 0 :
+            return max(1.46,depth_dist)
+	else : 
+            if depth_dist < 1.45 : 
+                return max(0,depth_dist)
+            elif depth_dist >= 4.8 :
+                return max(4.8,depth_dist)
     except:
-        return False, min(depth_dist)
+        return False, min(0,depth_dist)

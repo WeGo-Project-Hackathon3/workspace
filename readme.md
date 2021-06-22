@@ -53,14 +53,37 @@
   - Depth Camera <br>
     pyrealsense2  
   
-
 - pip install 로 환경 구성 
 
 ```
 $ pip install -r requirements.txt  
 ```
 </br>
-  
+
+## 6-0 프로젝트 실행 환경 구성
+
+해당 레포지토리를 git clone 할 때, 다음과 같은 파일 구조를 갖게 됩니다.
+
+---- ros_input ----
+
+​			|_ build (catkin_workspace)
+
+​			|_ devel
+
+​			|_ src
+
+​					|_ 
+
+
+
+(수정중...)
+
+```
+
+```
+
+
+
 
 ## 6-1. 프로젝트 실행 방법
 
